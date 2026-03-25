@@ -2,7 +2,7 @@ import { useState } from "react";
 import BpmSlider from "../components/BpmSlider";
 import PresetButtons from "../components/PresetButtons";
 import PlaylistPreview from "../components/PlaylistPreview";
-import { generatePlaylist } from "../api/playlistApi";
+import { generatePlaylist } from "../api/PlaylistAPI";
 
 export default function Dashboard() {
   const params = new URLSearchParams(window.location.search);

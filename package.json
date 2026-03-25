@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "vite frontend",
+    "build": "vite build frontend",
+    "lint": "eslint --config frontend/eslint.config.js frontend/src",
+    "preview": "vite preview frontend"
   },
   "dependencies": {
     "@y/websocket-server": "^0.1.5",
