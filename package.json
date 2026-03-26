@@ -1,34 +1,12 @@
 {
-  "name": "tempo-flow",
+  "name": "spotifybpm",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite frontend",
-    "build": "vite build frontend",
-    "lint": "eslint --config frontend/eslint.config.js frontend/src",
-    "preview": "vite preview frontend"
-  },
-  "dependencies": {
-    "@y/websocket-server": "^0.1.5",
-    "codemirror": "^5.65.21",
-    "react": "^19.2.0",
-    "react-codemirror2": "^9.0.1",
-    "react-dom": "^19.2.0",
-    "react-router-dom": "^7.12.0",
-    "y-codemirror": "^3.0.1",
-    "y-websocket": "^3.0.0",
-    "yjs": "^13.6.30"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "eslint": "^9.39.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
-    "globals": "^16.5.0",
-    "vite": "^7.2.4"
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint",
+    "preview": "npm --prefix frontend run preview",
+    "start:backend": "npm --prefix backend start",
+    "start:websocket": "npm --prefix websocket start"
   }
 }

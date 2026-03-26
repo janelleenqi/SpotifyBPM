@@ -40,7 +40,7 @@ export default App
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Editor from "./pages/Editor";
+import Editor from "./pages/Editor.jsx";
 
 import CollaborativeEditor from './CollaborativeEditor'
 
