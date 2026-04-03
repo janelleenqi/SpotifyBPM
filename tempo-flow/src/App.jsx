@@ -13,6 +13,15 @@ export default function App() {
     const ytext = ydoc.getText('shared-text')
     const textarea = textareaRef.current
 
+    provider.on('status', (event) => {
+      console.log('WebSocket status:', event.status) // connected / disconnected
+    })
+
+    provider.on('connection-error', (err) => {
+      console.error('WebSocket connection error:', err)
+    })
+
+
     const syncFromYjs = () => { // server to client sync on load
       if (textarea && textarea.value !== ytext.toString()) {
         textarea.value = ytext.toString()
