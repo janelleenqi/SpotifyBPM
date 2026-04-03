@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "Server.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "HOST=localhost PORT=1234 y-websocket"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
-    "y-websocket": "^3.0.0",
-    "yjs": "^13.6.30"
+    "y-websocket": "2.1.0"
   }
 }

@@ -2,36 +2,33 @@ import { useEffect, useRef } from 'react'
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
 
-export default function App() {
+export default function EditorPage({ userId, roomId, partnerId }) {
   const textareaRef = useRef(null)
 
   useEffect(() => {
     const ydoc = new Y.Doc()
-    // Yjs document is the shared in-memory collaborative document
-    const provider = new WebsocketProvider('ws://localhost:1234', 'editor-room', ydoc)
-    // ydoc is the Yjs document to sync through that room
+    const provider = new WebsocketProvider('ws://localhost:1234', roomId, ydoc)
     const ytext = ydoc.getText('shared-text')
     const textarea = textareaRef.current
 
     provider.on('status', (event) => {
-      console.log('WebSocket status:', event.status) // connected / disconnected
+      console.log(`[${userId}] WebSocket status:`, event.status)
     })
 
     provider.on('connection-error', (err) => {
-      console.error('WebSocket connection error:', err)
+      console.error(`[${userId}] WebSocket connection error:`, err)
     })
 
-
-    const syncFromYjs = () => { // server to client sync on load
+    const syncFromYjs = () => {
       if (textarea && textarea.value !== ytext.toString()) {
         textarea.value = ytext.toString()
       }
     }
 
-    syncFromYjs() 
-    ytext.observe(syncFromYjs) //
+    syncFromYjs()
+    ytext.observe(syncFromYjs)
 
-    const onInput = () => { // client to server sync on input
+    const onInput = () => {
       const value = textarea.value
 
       ydoc.transact(() => {
@@ -48,11 +45,15 @@ export default function App() {
       provider.destroy()
       ydoc.destroy()
     }
-  }, [])
+  }, [roomId, userId])
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>Yjs Test</h1>
+      <h1>Collaborative Editor</h1>
+      <p>Your user ID: {userId}</p>
+      <p>Partner ID: {partnerId}</p>
+      <p>Room ID: {roomId}</p>
+
       <textarea
         ref={textareaRef}
         style={{ width: '100%', height: '300px', fontSize: '16px' }}

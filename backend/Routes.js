@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post('/join', (req, res) => {
   const result = joinRoom()
+  console.log(`User ${result.userId} joined ${result.roomId} (status: ${result.status})`)
   res.json(result)
 })
 
