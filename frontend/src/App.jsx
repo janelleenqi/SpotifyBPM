@@ -1,31 +1,53 @@
-import { useEffect, useRef, useState } from 'react'
-import { joinMatch, getStatus } from './api'
+import { useEffect, useState } from 'react'
 import WaitingPage from './WaitingPage'
 import EditorPage from './EditorPage'
 
 export default function App() {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
-  const hasJoinedRef = useRef(false)
 
   useEffect(() => {
-    if (hasJoinedRef.current) return
-    hasJoinedRef.current = true
-
     let intervalId = null
     let cancelled = false
 
     async function start() {
       try {
-        const result = await joinMatch()
+        // 🔥 1. CHECK if user already exists in this tab
+        const savedUserId = sessionStorage.getItem('userId')
+
+        let result
+
+        if (savedUserId) {
+          // ✅ RESUME EXISTING USER
+          const res = await fetch(
+            `http://localhost:3001/resume/${savedUserId}`
+          )
+
+          if (res.ok) {
+            result = await res.json()
+          } else {
+            // ❌ user not found (backend restarted)
+            sessionStorage.removeItem('userId')
+            result = await joinNewUser()
+          }
+        } else {
+          // ✅ NEW USER
+          result = await joinNewUser()
+        }
+
         if (cancelled) return
 
         setSession(result)
 
+        // 🔥 2. IF WAITING → POLL
         if (result.status === 'waiting') {
           intervalId = setInterval(async () => {
             try {
-              const updated = await getStatus(result.userId)
+              const res = await fetch(
+                `http://localhost:3001/status/${result.userId}`
+              )
+              const updated = await res.json()
+
               if (cancelled) return
 
               if (updated.status === 'matched') {
@@ -42,6 +64,20 @@ export default function App() {
       } finally {
         if (!cancelled) setLoading(false)
       }
+    }
+
+    // helper
+    async function joinNewUser() {
+      const res = await fetch('http://localhost:3001/join', {
+        method: 'POST',
+      })
+
+      const data = await res.json()
+
+      // 🔥 SAVE userId so refresh does NOT create new user
+      sessionStorage.setItem('userId', data.userId)
+
+      return data
     }
 
     start()

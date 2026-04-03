@@ -19,4 +19,11 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Run application
 
+cd frontend
 npm run dev
+
+cd backend 
+npm run dev
+
+cd websocket
+npm run start

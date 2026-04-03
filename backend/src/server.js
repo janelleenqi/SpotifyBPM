@@ -8,12 +8,22 @@ const PORT = 3001
 app.use(cors())
 app.use(express.json())
 
-app.post('/join', (req, res) => {
+app.post('/join', (req, res) => { // Create new user
   const result = joinMatch()
   res.json(result)
 })
 
 app.get('/status/:userId', (req, res) => {
+  const result = getStatus(req.params.userId)
+
+  if (!result) {
+    return res.status(404).json({ error: 'User not found' })
+  }
+
+  res.json(result)
+})
+
+app.get('/resume/:userId', (req, res) => { // Resume existing user
   const result = getStatus(req.params.userId)
 
   if (!result) {
